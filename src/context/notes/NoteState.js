@@ -4,8 +4,10 @@ import { useState } from "react";
 const NoteSatate = (props) => {
   const host = "http://127.0.0.1:8000";
   const [notes, setNotes] = useState([]);
+  const authToken = localStorage.getItem('token')
 
   const getNotes = async () => {
+
     const response = await fetch(`${host}/api/allNotes/`, {
       method: "GET",
       headers: {
