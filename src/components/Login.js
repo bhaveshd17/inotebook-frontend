@@ -1,7 +1,7 @@
 import React, {useState} from 'react'
 import { useHistory } from 'react-router-dom';
 
-function Login() {
+function Login(props) {
     const history = useHistory()
     const [cred, setCred] = useState({"username":"", "password":""})
 
@@ -19,9 +19,10 @@ function Login() {
           if(data.success === true){
               localStorage.setItem('token', data.authToken)
               history.push("/")
+              props.showAlert("Login successfully!", "success")
           }
           else{
-              alert(data.error)
+              props.showAlert(data.error, "error")
           }
     }
 

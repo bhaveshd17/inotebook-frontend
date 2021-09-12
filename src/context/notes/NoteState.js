@@ -1,18 +1,17 @@
 import NoteContext from "./NoteContext";
 import { useState } from "react";
+import jwtDecode from "jwt-decode";
 
 const NoteSatate = (props) => {
   const host = "http://127.0.0.1:8000";
   const [notes, setNotes] = useState([]);
-  const authToken = localStorage.getItem('token')
 
   const getNotes = async () => {
-
     const response = await fetch(`${host}/api/allNotes/`, {
       method: "GET",
       headers: {
         'Content-Type': 'application/json',
-        "authToken":"eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoyMiwidXNlcm5hbWUiOiJiaGF2ZXNoMyJ9.MreeCuMfTAzdrXXur86ta-1YqImzopsfrXPfe3w8BQw"
+        "authToken":localStorage.getItem('token')
       }
     });
     const data = await response.json();
@@ -21,13 +20,15 @@ const NoteSatate = (props) => {
   
   // add Note
   const addNote = async(title, description, tags) => {
+    let user = jwtDecode(localStorage.getItem('token'))
+    user = user.user_id;
     const response = await fetch(`${host}/api/createNote/`, {
       method: "POST",
       headers: {
         'Content-Type': 'application/json',
-        "authToken":"eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoyMiwidXNlcm5hbWUiOiJiaGF2ZXNoMyJ9.MreeCuMfTAzdrXXur86ta-1YqImzopsfrXPfe3w8BQw"
+        "authToken":localStorage.getItem('token')
       },
-      body: JSON.stringify({title, description, tags})
+      body: JSON.stringify({user,title, description, tags})
     });
     const data = await response.json();
     setNotes(notes.concat(data));
@@ -39,7 +40,7 @@ const NoteSatate = (props) => {
       method: "PUT",
       headers: {
         'Content-Type': 'application/json',
-        "authToken":"eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoyMiwidXNlcm5hbWUiOiJiaGF2ZXNoMyJ9.MreeCuMfTAzdrXXur86ta-1YqImzopsfrXPfe3w8BQw"
+        "authToken":localStorage.getItem('token')
       },
       body: JSON.stringify({title, description, tags})
     });
@@ -64,7 +65,7 @@ const NoteSatate = (props) => {
       method: "DELETE",
       headers: {
         'Content-Type': 'application/json',
-        "authToken":"eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoyMiwidXNlcm5hbWUiOiJiaGF2ZXNoMyJ9.MreeCuMfTAzdrXXur86ta-1YqImzopsfrXPfe3w8BQw"
+        "authToken":localStorage.getItem('token')
       }
     });
     const json = await response.json()

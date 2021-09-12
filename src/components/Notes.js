@@ -1,13 +1,21 @@
 import React, {useContext, useEffect, useRef, useState} from 'react'
+import { useHistory } from 'react-router-dom';
 import notesContext from '../context/notes/NoteContext'
 import AddNotes from './AddNotes'
 import Noteitems from './Noteitems'
 
-function Notes() {
+function Notes(props) {
+    const {showAlert} = props;
+    const history = useHistory()
     let context = useContext(notesContext)
     let {notes, getNotes, editNote} = context
     useEffect(() => {
-        getNotes()
+        if(localStorage.getItem('token')){
+            getNotes()
+        }
+        else{
+            history.push("/login")
+        }
         // eslint-disable-next-line
     }, [])
 
@@ -29,12 +37,13 @@ function Notes() {
     const handleSubmit = (e)=>{
         refClose.current.click()
         editNote(noteData.id, noteData.etitle, noteData.edescription, noteData.etags)
+        showAlert("Note Updated!","success")
     }
 
 
     return (
         <>
-        <AddNotes />
+        <AddNotes showAlert={showAlert}/>
 
         <button type="button" ref={ref} className="btn btn-primary d-none" data-bs-toggle="modal" data-bs-target="#editModal">
         Edit
@@ -78,7 +87,7 @@ function Notes() {
 
             
         {notes.map(function (note){
-            return <Noteitems key={note.id} updateNote={updateNote} note={note} />
+            return <Noteitems key={note.id} updateNote={updateNote} note={note} showAlert={showAlert}/>
         })}
         </div>
         </>

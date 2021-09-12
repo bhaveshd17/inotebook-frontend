@@ -1,11 +1,19 @@
 import React, {useEffect} from "react";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useHistory } from "react-router-dom";
 
-function Navbar() {
+function Navbar(props) {
   let location = useLocation()
   useEffect(() => {
       
   }, [location])
+
+  const history = useHistory()
+  const handleLogout = ()=>{
+    localStorage.removeItem('token')
+    history.push("/login")
+    props.showAlert("Thanks for using inotebook :)", "success")
+  }
+
   return (
     <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
       <div className="container-fluid">
@@ -40,14 +48,14 @@ function Navbar() {
               </Link>
             </li>
           </ul>
-          <div className="d-flex">
+          {!localStorage.getItem('token')?<div className="d-flex">
             <Link className="btn btn-primary btn-sm me-2" to='/login'>
               Login
             </Link>
             <Link className="btn btn-primary btn-sm me-2" to='/signup'>
               SignUp
             </Link>
-          </div>
+          </div>:<button className="btn btn-primary btn-sm me-2" onClick={handleLogout}>Logout</button>}
         </div>
 
 

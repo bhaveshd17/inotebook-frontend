@@ -2,7 +2,7 @@ import React, {useState} from 'react'
 import { useHistory } from 'react-router-dom';
 
 
-function Signup() {
+function Signup(props) {
     const history = useHistory()
     const [cred, setCred] = useState({"username":"", "email":"","password":"", "cpassword":"", "first_name":""})
 
@@ -21,13 +21,14 @@ function Signup() {
           if(data.success === true && data.username!== username && data.email !== email){
               localStorage.setItem('token', data.authToken)
               history.push("/")
+              props.showAlert("Account created successfully!", "success")
           }
           else{
               if(data.error){
-                  alert(data.error)
+                props.showAlert(data.error, "error")
               }
               else{
-                  alert(data.username)
+                  props.showAlert(data.username, "success")
               }
           }
     }

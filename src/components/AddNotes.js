@@ -1,7 +1,7 @@
 import React, {useContext, useState} from 'react'
 import notesContext from '../context/notes/NoteContext'
 
-function AddNotes() {
+function AddNotes(props) {
     let context = useContext(notesContext)
     let {addNote} = context;
 
@@ -14,6 +14,7 @@ function AddNotes() {
         addNote(noteData.title, noteData.description, noteData.tags)
         e.preventDefault()
         setnoteData({"title":"", "description":"", "tags":""})
+        props.showAlert("Note added!", "success")
     }
 
     return (
@@ -22,15 +23,15 @@ function AddNotes() {
             <form className="w-50 m-auto">
             <div className="mb-3">
                 <label htmlFor="title">Title</label>
-                <input className="form-control" type="text" name="title" value={noteData.title} id="title" onChange={onChangeHandle} />
+                <input className="form-control" type="text" name="title" value={noteData.title} id="title" onChange={onChangeHandle} required/>
             </div>
             <div className="mb-3">
                 <label htmlFor="description">Description</label>
-                <input className="form-control" type="text" name="description" value={noteData.description} id="description" onChange={onChangeHandle} />
+                <input className="form-control" type="text" name="description" value={noteData.description} id="description" onChange={onChangeHandle} required/>
             </div>
             <div className="mb-3">
                 <label htmlFor="tags">Tags</label>
-                <input className="form-control" type="text" name="tags" value={noteData.tags} id="tags" onChange={onChangeHandle} />
+                <input className="form-control" type="text" name="tags" value={noteData.tags} id="tags" onChange={onChangeHandle} required/>
             </div>
             <button disabled={noteData.title.length <5 || noteData.description.length<5} type="submit" className="btn btn-primary" onClick={handleSubmit}>Submit</button>
             </form>
