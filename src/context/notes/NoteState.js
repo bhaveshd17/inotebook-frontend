@@ -3,7 +3,7 @@ import { useState } from "react";
 import jwtDecode from "jwt-decode";
 
 const NoteSatate = (props) => {
-  const host = "http://127.0.0.1:8000";
+  const host = "https://inotebook-api.herokuapp.com";
   const [notes, setNotes] = useState([]);
 
   const getNotes = async () => {

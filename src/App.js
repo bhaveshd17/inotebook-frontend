@@ -6,6 +6,7 @@ import About from './components/About';
 import Login from './components/Login'
 import Signup from './components/Signup'
 import NoteSatate from './context/notes/NoteState';
+import userData from './components/userData';
 import Alert from './components/Alert';
 import { useState } from 'react';
 
@@ -40,6 +41,9 @@ function App() {
           </Route>
           <Route exact path='/signup'>
             <Signup showAlert={showAlert} />
+          </Route>
+          <Route exact path='/user'>
+            <userData showAlert={showAlert} />
           </Route>
         </Switch>
       </div>

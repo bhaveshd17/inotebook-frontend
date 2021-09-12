@@ -1,8 +1,14 @@
+import jwtDecode from "jwt-decode";
 import React, {useEffect} from "react";
 import { Link, useLocation, useHistory } from "react-router-dom";
 
 function Navbar(props) {
   let location = useLocation()
+  let user = ""
+  if(localStorage.getItem('token')){
+    user = jwtDecode(localStorage.getItem('token')).username
+  }
+
   useEffect(() => {
       
   }, [location])
@@ -55,7 +61,15 @@ function Navbar(props) {
             <Link className="btn btn-primary btn-sm me-2" to='/signup'>
               SignUp
             </Link>
-          </div>:<button className="btn btn-primary btn-sm me-2" onClick={handleLogout}>Logout</button>}
+          </div>:
+          <ul className="navbar-nav ms-auto mb-2 mb-lg-0">
+            <li className="nav-item">
+            <Link className="nav-link me-3" to="/user">Hello, {user}</Link>
+            </li>
+          <li className="nav-item p-0 mb-0">
+          <button className="btn btn-primary me-2" onClick={handleLogout}>Logout</button>
+          </li>
+          </ul>}
         </div>
 
 

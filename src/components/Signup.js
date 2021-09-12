@@ -9,7 +9,7 @@ function Signup(props) {
     const submitHandle = async(e)=>{
         e.preventDefault();
         const {username, email, password, cpassword, first_name} = cred;
-        const response = await fetch("http://127.0.0.1:8000/api/auth/createUser/", {
+        const response = await fetch("https://inotebook-api.herokuapp.com/api/auth/createUser/", {
             method: "POST",
             headers: {
               'Content-Type': 'application/json'
